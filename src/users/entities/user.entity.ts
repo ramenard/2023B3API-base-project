@@ -1,4 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Project } from '../../projects/entities/project.entity';
+import { ProjectUser } from '../../project-user/entities/project-user.entity';
 
 enum RoleEnum {
   Employee = 'Employee',
@@ -17,9 +19,15 @@ export class User {
   @Column({ unique: true })
   public email!: string;
 
-  @Column()
+  @Column({ select: false })
   public password!: string;
 
   @Column()
   public role!: RoleEnum;
+
+  @OneToMany(() => Project, (project) => project.referringEmployee)
+  public projects!: Project[];
+
+  @OneToMany(() => ProjectUser, (projectUser) => projectUser.user)
+  public projectUser!: ProjectUser[];
 }

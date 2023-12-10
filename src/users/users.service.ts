@@ -1,3 +1,4 @@
+import * as bcrypt from 'bcrypt';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -23,7 +24,12 @@ export class UsersService {
     if (!createUserDto.role) {
       createUserDto.role = RoleEnum.Employee;
     }
-    const user: User = (await this.userRepository.save(createUserDto)) as User;
+    const saltOrRounds = 10;
+    const hash = await bcrypt.hash(createUserDto.password, saltOrRounds);
+    const user: User = (await this.userRepository.save({
+      ...createUserDto,
+      password: hash,
+    })) as User;
     return this.findOneById(user.id);
   }
 
@@ -50,12 +56,4 @@ export class UsersService {
       select: ['id', 'username', 'email', 'password', 'role'],
     });
   }
-
-  // update(id: number, updateUserDto: UpdateUserDto) {
-  //   return `This action updates a #${id} users`;
-  // }
-
-  // remove(id: number) {
-  //   return `This action removes a #${id} users`;
-  // }
 }
