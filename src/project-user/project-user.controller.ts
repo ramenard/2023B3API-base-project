@@ -1,4 +1,12 @@
-import { Controller, Post, Body, UseGuards, Get, Req } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  UseGuards,
+  Get,
+  Req,
+  Param,
+} from '@nestjs/common';
 import { ProjectUserService } from './project-user.service';
 import { CreateProjectUserDto } from './dto/create-project-user.dto';
 import { RolesGuard } from '../guards/role.guard';
@@ -29,26 +37,25 @@ export class ProjectUserController {
 
   @UseGuards(AuthGuard)
   @Get('')
-  public findAll(@Req() req: Request) {
+  public async findAll(@Req() req: Request) {
     const payload: { user: UserDto } = req.user as { user: UserDto };
     if (payload.user.role !== RoleEnum.Employee) {
-      return this.projectUserService.findAllById(payload.user.id);
+      return (await this.projectUserService.findAll()).map(
+        (projectUser) => projectUser.project,
+      );
     }
-    return this.projectUserService.findAll();
+    return (await this.projectUserService.findAllById(payload.user.id)).map(
+      (projectUser) => projectUser.project,
+    );
   }
-  //
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.projectUserService.findOne(+id);
-  // }
-  //
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateProjectUserDto: UpdateProjectUserDto) {
-  //   return this.projectUserService.update(+id, updateProjectUserDto);
-  // }
-  //
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.projectUserService.remove(+id);
-  // }
+
+  @UseGuards(AuthGuard)
+  @Get(':id')
+  findOne(@Param('id') projectId: string, @Req() req: Request) {
+    const payload: { user: UserDto } = req.user as { user: UserDto };
+    if (payload.user.role !== RoleEnum.Employee) {
+      return this.projectUserService.findByIdAsAdmin(projectId);
+    }
+    return this.projectUserService.findByIdAsUser(payload.user.id, projectId);
+  }
 }

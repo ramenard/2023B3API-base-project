@@ -4,10 +4,9 @@ import {
   forwardRef,
   Inject,
   Injectable,
-  NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { CreateProjectUserDto } from './dto/create-project-user.dto';
-import { UpdateProjectUserDto } from './dto/update-project-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ProjectUser } from './entities/project-user.entity';
@@ -28,13 +27,13 @@ export class ProjectUserService {
     await this.projectsService.isProjectExist(createProjectUserDto.projectId);
     await this.usersService.findOneById(createProjectUserDto.userId);
     const allProjectsUser = await this.findAllById(createProjectUserDto.userId);
-    const isAvailable = allProjectsUser.some(
+    const isNotAvailable = allProjectsUser.some(
       (userProject: ProjectUser) =>
         new Date(createProjectUserDto.startDate) <=
           new Date(userProject.endDate) ||
         new Date(createProjectUserDto.endDate) <= new Date(userProject.endDate),
     );
-    if (isAvailable) {
+    if (isNotAvailable) {
       throw new ConflictException();
     }
     const projectUser: ProjectUser =
@@ -51,13 +50,17 @@ export class ProjectUserService {
   }
 
   public findAll(): Promise<ProjectUser[]> {
-    return this.projectUserRepository.find();
+    return this.projectUserRepository.find({
+      relations: {
+        project: true,
+      },
+    });
   }
 
   public async findAllById(userId: string): Promise<ProjectUser[]> {
-    return this.projectUserRepository.find({
-      where: { userId: userId },
-      relations: { project: true },
+    return await this.projectUserRepository.find({
+      where: { userId },
+      relations: { project: true, user: true },
     });
   }
 
@@ -77,5 +80,22 @@ export class ProjectUserService {
       where: { userId: userId },
     });
     return projectUsers.map((projectUser) => projectUser.projectId);
+  }
+
+  public async findByIdAsAdmin(projectId: string): Promise<ProjectUser> {
+    return this.projectUserRepository.findOne({ where: { id: projectId } });
+  }
+
+  public async findByIdAsUser(
+    userId: string,
+    projectId: string,
+  ): Promise<ProjectUser> {
+    try {
+      return this.projectUserRepository.findOneOrFail({
+        where: { userId: userId, id: projectId },
+      });
+    } catch {
+      throw new UnauthorizedException();
+    }
   }
 }
