@@ -40,13 +40,9 @@ export class ProjectUserController {
   public async findAll(@Req() req: Request) {
     const payload: { user: UserDto } = req.user as { user: UserDto };
     if (payload.user.role !== RoleEnum.Employee) {
-      return (await this.projectUserService.findAll()).map(
-        (projectUser) => projectUser.project,
-      );
+      return this.projectUserService.findAll();
     }
-    return (await this.projectUserService.findAllById(payload.user.id)).map(
-      (projectUser) => projectUser.project,
-    );
+    return this.projectUserService.findAllById(payload.user.id);
   }
 
   @UseGuards(AuthGuard)

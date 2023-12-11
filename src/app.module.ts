@@ -9,6 +9,8 @@ import { ProjectUserModule } from './project-user/project-user.module';
 import { User } from './users/entities/user.entity';
 import { UsersModule } from './users/users.module';
 import { APP_PIPE } from '@nestjs/core';
+import { Event } from './events/entities/event.entity';
+import { EventsModule } from './events/events.module';
 
 @Module({
   imports: [
@@ -22,7 +24,7 @@ import { APP_PIPE } from '@nestjs/core';
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
-        entities: [User, Project, ProjectUser],
+        entities: [User, Project, ProjectUser, Event],
         synchronize: true,
       }),
       inject: [ConfigService],
@@ -30,6 +32,7 @@ import { APP_PIPE } from '@nestjs/core';
     UsersModule,
     ProjectsModule,
     ProjectUserModule,
+    EventsModule,
   ],
   controllers: [],
   providers: [

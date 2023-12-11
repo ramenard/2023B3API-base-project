@@ -59,6 +59,6 @@ export class UsersController {
 
   @Post('/auth/sign-up')
   public register(@Body() createUserDto: CreateUserDto) {
-    return this.authService.register(createUserDto);
+    return this.usersService.create(createUserDto);
   }
 }

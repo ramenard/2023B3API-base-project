@@ -26,10 +26,10 @@ export class UsersService {
     }
     const saltOrRounds = 10;
     const hash = await bcrypt.hash(createUserDto.password, saltOrRounds);
-    const user: User = (await this.userRepository.save({
+    const user: User = await this.userRepository.save({
       ...createUserDto,
       password: hash,
-    })) as User;
+    });
     return this.findOneById(user.id);
   }
 

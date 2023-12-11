@@ -37,8 +37,6 @@ export class ProjectsService {
   public async findAllByUserId(userId: string): Promise<Project[]> {
     const projectsId: string[] =
       await this.projectUserService.getProjectIdByUser(userId);
-    console.log(projectsId);
-    // return this.projectUserService.findAllById(userId);
     const allProjects: Project[] = [];
     await Promise.all(
       projectsId.map(async (projectId) =>
@@ -50,7 +48,6 @@ export class ProjectsService {
         ),
       ),
     );
-    console.log(allProjects);
     return allProjects;
   }
 

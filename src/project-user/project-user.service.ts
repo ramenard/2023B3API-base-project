@@ -50,17 +50,12 @@ export class ProjectUserService {
   }
 
   public findAll(): Promise<ProjectUser[]> {
-    return this.projectUserRepository.find({
-      relations: {
-        project: true,
-      },
-    });
+    return this.projectUserRepository.find();
   }
 
   public async findAllById(userId: string): Promise<ProjectUser[]> {
     return await this.projectUserRepository.find({
       where: { userId },
-      relations: { project: true, user: true },
     });
   }
 
@@ -83,7 +78,9 @@ export class ProjectUserService {
   }
 
   public async findByIdAsAdmin(projectId: string): Promise<ProjectUser> {
-    return this.projectUserRepository.findOne({ where: { id: projectId } });
+    return this.projectUserRepository.findOne({
+      where: { id: projectId },
+    });
   }
 
   public async findByIdAsUser(
