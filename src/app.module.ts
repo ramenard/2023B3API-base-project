@@ -8,9 +8,10 @@ import { ProjectUser } from './project-user/entities/project-user.entity';
 import { ProjectUserModule } from './project-user/project-user.module';
 import { User } from './users/entities/user.entity';
 import { UsersModule } from './users/users.module';
-import { APP_PIPE } from '@nestjs/core';
+import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { Event } from './events/entities/event.entity';
 import { EventsModule } from './events/events.module';
+import { RequestInterceptor } from './interceptor/request.interceptor';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { EventsModule } from './events/events.module';
       provide: APP_PIPE,
       useClass: ValidationPipe,
     },
+    { provide: APP_INTERCEPTOR, useClass: RequestInterceptor },
   ],
 })
 export class AppModule {}
