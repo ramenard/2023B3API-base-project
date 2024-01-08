@@ -1,3 +1,4 @@
+import * as dayjs from 'dayjs';
 import {
   Controller,
   Post,
@@ -60,5 +61,13 @@ export class UsersController {
   @Post('/auth/sign-up')
   public register(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
+  }
+
+  @Get(':id/meal-vouchers/:month')
+  public(
+    @Param('id') userId: string,
+    @Param('month') month: number,
+  ): Promise<number> {
+    return this.usersService.getNumberOfDay(month, userId);
   }
 }

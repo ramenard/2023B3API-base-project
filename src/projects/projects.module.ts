@@ -9,8 +9,8 @@ import { ProjectUserModule } from '../project-user/project-user.module';
 @Module({
   imports: [
     TypeOrmModule.forFeature([Project]),
-    UsersModule,
     forwardRef(() => ProjectUserModule),
+    forwardRef(() => UsersModule),
   ],
   controllers: [ProjectsController],
   providers: [ProjectsService],

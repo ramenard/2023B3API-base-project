@@ -34,9 +34,10 @@ export class ProjectsService {
     });
   }
 
+  // TODO: need to refactor using projectUser relation
   public async findAllByUserId(userId: string): Promise<Project[]> {
     const projectsId: string[] =
-      await this.projectUserService.getProjectIdByUser(userId);
+      await this.projectUserService.getProjectIdsByUser(userId);
     const allProjects: Project[] = [];
     await Promise.all(
       projectsId.map(async (projectId) =>
@@ -84,25 +85,4 @@ export class ProjectsService {
       throw new NotFoundException();
     }
   }
-
-  public async getProjectsById(projectsId: string[]) {
-    const allProjects: Project[] = [];
-    projectsId.map(async (projectId) =>
-      allProjects.push(
-        await this.projectRepository.findOne({ where: { id: projectId } }),
-      ),
-    );
-  }
-
-  // findOne(id: number) {
-  //   return `This action returns a #${id} project`;
-  // }
-  //
-  // update(id: number, updateProjectDto: UpdateProjectDto) {
-  //   return `This action updates a #${id} project`;
-  // }
-  //
-  // remove(id: number) {
-  //   return `This action removes a #${id} project`;
-  // }
 }

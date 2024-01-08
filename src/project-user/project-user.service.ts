@@ -69,10 +69,18 @@ export class ProjectUserService {
     }
   }
 
-  public async getProjectIdByUser(userId: string): Promise<string[]> {
+  public async getProjectIdsByUser(userId: string): Promise<string[]> {
     const projectUsers = await this.projectUserRepository.find({
       select: ['projectId'],
       where: { userId: userId },
+    });
+    return projectUsers.map((projectUser) => projectUser.projectId);
+  }
+
+  public async getProjectIdsByReferring(userId: string): Promise<string[]> {
+    const projectUsers = await this.projectUserRepository.find({
+      select: ['projectId'],
+      where: { project: { referringEmployeeId: userId } },
     });
     return projectUsers.map((projectUser) => projectUser.projectId);
   }
@@ -94,5 +102,17 @@ export class ProjectUserService {
     } catch {
       throw new UnauthorizedException();
     }
+  }
+
+  public async getProjectsUserById(
+    projectsId: string[],
+  ): Promise<ProjectUser[]> {
+    return await Promise.all(
+      projectsId.map((projectId) => {
+        return this.projectUserRepository.findOne({
+          where: { projectId: projectId },
+        });
+      }),
+    );
   }
 }

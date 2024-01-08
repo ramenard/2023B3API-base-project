@@ -5,12 +5,14 @@ import { ProjectUserController } from './project-user.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProjectsModule } from '../projects/projects.module';
 import { UsersModule } from '../users/users.module';
+import { EventsModule } from '../events/events.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([ProjectUser]),
     forwardRef(() => ProjectsModule),
-    UsersModule,
+    forwardRef(() => EventsModule),
+    forwardRef(() => UsersModule),
   ],
   controllers: [ProjectUserController],
   providers: [ProjectUserService],
