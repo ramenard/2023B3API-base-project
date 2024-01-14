@@ -9,10 +9,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { CreateUserDto } from './dto/create-user.dto';
+import { EventsService } from '../events/events.service';
 import { User } from './entities/user.entity';
 import { UserDto } from './dto/user.dto';
-import { ProjectUserService } from '../project-user/project-user.service';
-import { EventsService } from '../events/events.service';
 
 enum RoleEnum {
   Employee = 'Employee',

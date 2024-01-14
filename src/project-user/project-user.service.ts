@@ -6,12 +6,13 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { CreateProjectUserDto } from './dto/create-project-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+
+import { CreateProjectUserDto } from './dto/create-project-user.dto';
+import { ProjectsService } from '../projects/projects.service';
 import { ProjectUser } from './entities/project-user.entity';
 import { UsersService } from '../users/users.service';
-import { ProjectsService } from '../projects/projects.service';
 
 @Injectable()
 export class ProjectUserService {

@@ -7,14 +7,15 @@ import {
   Param,
   Get,
 } from '@nestjs/common';
-import { EventsService } from './events.service';
-import { CreateEventDto } from './dto/create-event.dto';
-import { AuthGuard } from '../guards/auth.guard';
-import { UserDto } from '../users/dto/user.dto';
 import { Request } from 'express';
+
+import { AuthGuard } from '../guards/auth.guard';
+import { CreateEventDto } from './dto/create-event.dto';
 import { Event } from './entities/event.entity';
-import { RolesGuard } from '../guards/role.guard';
+import { EventsService } from './events.service';
 import { Roles } from '../decorator/roles.decorator';
+import { RolesGuard } from '../guards/role.guard';
+import { UserDto } from '../users/dto/user.dto';
 
 enum EventStatusEnum {
   Pending = 'Pending',
@@ -89,15 +90,4 @@ export class EventsController {
       EventStatusEnum.Declined,
     );
   }
-
-  // @Roles([RoleEnum.Admin, RoleEnum.ProjectManager])
-  // @UseGuards(AuthGuard, RolesGuard)
-  // @Post(':id/decline')
-  // public decline(@Param('id') eventId: string, @Req() request: Request) {
-  //   const payload: { user: UserDto } = request.user as { user: UserDto };
-  //   if (payload.user.role === RoleEnum.ProjectManager) {
-  //     return this.eventsService.declineAsManager(eventId, payload.user.id);
-  //   }
-  //   return this.eventsService.decline(eventId);
-  // }
 }

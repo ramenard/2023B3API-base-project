@@ -1,17 +1,17 @@
-import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Module, ValidationPipe } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
+import { Event } from './events/entities/event.entity';
+import { EventsModule } from './events/events.module';
 import { Project } from './projects/entities/project.entity';
 import { ProjectsModule } from './projects/projects.module';
 import { ProjectUser } from './project-user/entities/project-user.entity';
 import { ProjectUserModule } from './project-user/project-user.module';
+import { RequestInterceptor } from './interceptor/request.interceptor';
 import { User } from './users/entities/user.entity';
 import { UsersModule } from './users/users.module';
-import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
-import { Event } from './events/entities/event.entity';
-import { EventsModule } from './events/events.module';
-import { RequestInterceptor } from './interceptor/request.interceptor';
 
 @Module({
   imports: [

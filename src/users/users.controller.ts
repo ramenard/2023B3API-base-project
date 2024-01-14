@@ -1,4 +1,3 @@
-import * as dayjs from 'dayjs';
 import {
   Controller,
   Post,
@@ -13,12 +12,12 @@ import {
 } from '@nestjs/common';
 import { Request } from 'express';
 
+import { AuthGuard } from '../guards/auth.guard';
+import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { SignInDto } from './dto/signIn.dto';
-import { AuthService } from './auth.service';
-import { UsersService } from './users.service';
-import { AuthGuard } from '../guards/auth.guard';
 import { UserDto } from './dto/user.dto';
+import { UsersService } from './users.service';
 
 @Controller('users')
 export class UsersController {

@@ -1,13 +1,12 @@
 import { forwardRef, Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from '@nestjs/jwt';
-import { UsersService } from './users.service';
-import { UsersController } from './users.controller';
-import { User } from './entities/user.entity';
+import { TypeOrmModule } from '@nestjs/typeorm';
+
 import { AuthService } from './auth.service';
-import { ProjectUserModule } from '../project-user/project-user.module';
 import { EventsModule } from '../events/events.module';
-import { ProjectsModule } from '../projects/projects.module';
+import { User } from './entities/user.entity';
+import { UsersController } from './users.controller';
+import { UsersService } from './users.service';
 
 @Module({
   imports: [

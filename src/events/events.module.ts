@@ -1,8 +1,9 @@
 import { forwardRef, Module } from '@nestjs/common';
-import { EventsService } from './events.service';
-import { EventsController } from './events.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
+
 import { Event } from './entities/event.entity';
+import { EventsController } from './events.controller';
+import { EventsService } from './events.service';
 import { ProjectsModule } from '../projects/projects.module';
 import { ProjectUserModule } from '../project-user/project-user.module';
 import { UsersModule } from '../users/users.module';

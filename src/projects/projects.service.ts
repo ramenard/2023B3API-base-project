@@ -34,7 +34,6 @@ export class ProjectsService {
     });
   }
 
-  // TODO: need to refactor using projectUser relation
   public async findAllByUserId(userId: string): Promise<Project[]> {
     const projectsId: string[] =
       await this.projectUserService.getProjectIdsByUser(userId);

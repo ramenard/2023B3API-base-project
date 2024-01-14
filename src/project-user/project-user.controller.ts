@@ -7,13 +7,14 @@ import {
   Req,
   Param,
 } from '@nestjs/common';
-import { ProjectUserService } from './project-user.service';
-import { CreateProjectUserDto } from './dto/create-project-user.dto';
-import { RolesGuard } from '../guards/role.guard';
-import { Roles } from '../decorator/roles.decorator';
-import { AuthGuard } from '../guards/auth.guard';
-import { ProjectUser } from './entities/project-user.entity';
 import { Request } from 'express';
+
+import { AuthGuard } from '../guards/auth.guard';
+import { CreateProjectUserDto } from './dto/create-project-user.dto';
+import { ProjectUser } from './entities/project-user.entity';
+import { ProjectUserService } from './project-user.service';
+import { Roles } from '../decorator/roles.decorator';
+import { RolesGuard } from '../guards/role.guard';
 import { UserDto } from '../users/dto/user.dto';
 
 enum RoleEnum {

@@ -10,18 +10,17 @@ import {
   Inject,
   forwardRef,
 } from '@nestjs/common';
+import { Request } from 'express';
 
 import { AuthGuard } from '../guards/auth.guard';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { Project } from './entities/project.entity';
 import { ProjectsService } from './projects.service';
-import { Request } from 'express';
+import { ProjectUserService } from '../project-user/project-user.service';
 import { Roles } from '../decorator/roles.decorator';
 import { RolesGuard } from '../guards/role.guard';
 import { UserDto } from '../users/dto/user.dto';
 import { UsersService } from '../users/users.service';
-import { User } from '../users/entities/user.entity';
-import { ProjectUserService } from '../project-user/project-user.service';
 
 enum RoleEnum {
   Employee = 'Employee',

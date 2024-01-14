@@ -6,13 +6,14 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { CreateEventDto } from './dto/create-event.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+
+import { CreateEventDto } from './dto/create-event.dto';
 import { Event } from './entities/event.entity';
 import { ProjectsService } from '../projects/projects.service';
-import { ProjectUserService } from '../project-user/project-user.service';
 import { ProjectUser } from '../project-user/entities/project-user.entity';
+import { ProjectUserService } from '../project-user/project-user.service';
 
 enum EventTypeEnum {
   RemoteWork = 'RemoteWork',
